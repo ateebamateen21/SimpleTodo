@@ -1,6 +1,54 @@
-*{
+@use "sass:map";
+@import "node_modules/bootstrap/scss/bootstrap";
+//Colour Theme:
+$theme-colors: (
+    "color1": #faf6f0,
+    "color2": #f4eae0,
+    "color3": #fefae0ff,
+    "color4": #e0bb94,
+    "color5": #000000,
+);
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
 }
+
+body {
+    font-family: "Roboto", sans-serif;
+    background-color: map-get($theme-colors, "color2") !important;
+    color: map-get($theme-colors, "color5");
+    font-size: 1.2rem;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+.PromptCard {
+    background-color: map-get($theme-colors, "color4") !important;
+    color: map-get($theme-colors, "color5");
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    &:hover {
+        transform: scale(1.05);
+    }
+}
+
+.TaskCard {
+    background-color: map-get($theme-colors, "color4") !important;
+    color: map-get($theme-colors, "color5");
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    &:hover {
+        transform: scale(1.05);
+    }
+}
+
+.btnPrompt {
+    background-color: map-get($theme-colors, "color4");
+    border: none;
+}
+
+// @debug map-get($theme-colors, "color4");

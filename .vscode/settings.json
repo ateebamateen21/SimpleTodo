@@ -1,0 +1,58 @@
+{
+    "textmarker.savedHighlights": [
+        {
+            "pattern": {
+                "type": "string",
+                "expression": "onAddTask",
+                "ignoreCase": false,
+                "wholeMatch": false
+            },
+            "color": "darkgoldenrod"
+        },
+        {
+            "pattern": {
+                "type": "string",
+                "expression": "tasks",
+                "ignoreCase": false,
+                "wholeMatch": false
+            },
+            "color": "darkmagenta"
+        },
+        {
+            "pattern": {
+                "type": "string",
+                "expression": "task",
+                "ignoreCase": false,
+                "wholeMatch": false
+            },
+            "color": "darkolivegreen"
+        },
+        {
+            "pattern": {
+                "type": "string",
+                "expression": "modal",
+                "ignoreCase": false,
+                "wholeMatch": false
+            },
+            "color": "darkslateblue"
+        },
+        {
+            "pattern": {
+                "type": "string",
+                "expression": ".TaskCard ",
+                "ignoreCase": false,
+                "wholeMatch": false
+            },
+            "color": "darkslategray"
+        },
+        {
+            "pattern": {
+                "type": "string",
+                "expression": ".btnPrompt",
+                "ignoreCase": false,
+                "wholeMatch": false
+            },
+            "color": "darkviolet"
+        }
+    ]
+}

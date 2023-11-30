@@ -1,5 +1,6 @@
 import { Provider } from "react-redux";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import "./assets/css/style.scss";
 import Auth from "./layout/Auth";
 import Main from "./layout/Main";
 import routes from "./routes";
