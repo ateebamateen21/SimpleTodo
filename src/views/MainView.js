@@ -15,23 +15,43 @@ import {
 } from "reactstrap";
 import { useEffect, useState, useRef } from "react";
 
-const AdminView = (props) => {
-    // State to manage tasks
+const AdminView = () => {
     const [tasks, setTasks] = useState([]);
-    // State to manage selected task
     const [selectedTask, setSelectedTask] = useState(null);
 
-    // Function to add a new task
-    const addTask = (taskText) => {
-        // Create a new task object
-        const newTask = {
-            id: Date.now(), // Unique ID (using timestamp)
-            text: taskText,
-        };
+    //parameters with the task being added
+    const [selectedDate, setSelectedDate] = useState(null);
 
-        // Update the tasks state
-        setTasks((prevTasks) => [...prevTasks, newTask]);
+    setSelectedDate(selectedDate)
+
+    //State for priority in your component
+    const [priority, setPriority] = useState(null);
+
+    // Function to handle priority changes
+    const handlePriorityChange = (selectedPriority) => {
+        setPriority(selectedPriority);
     };
+
+    const [tag, setTag] = useState("");
+
+    const addTask = (taskText, tag, selectedDate, priority) => {
+        // Create a new task object with additional properties
+        const newTask = {
+            id: Date.now(),
+            text: taskText,
+            tag: tag,
+            selectedDate: selectedDate,
+            priority: priority,
+        };
+        setTasks((prevTasks) => [...prevTasks, newTask]);
+        // console.log(newTask); //see the recently added task
+    };
+
+    // console.log(tasks) // see the array of tasks
+
+    // Update the tasks state
+
+    //Code for the modals of the tasks.
     const [modalDelete, setModalDelete] = useState(false);
     const [modalEdit, setModalEdit] = useState(false);
     const toggleDeleteModal = () => setModalDelete(!modalDelete);
@@ -48,17 +68,6 @@ const AdminView = (props) => {
         }
         toggleDeleteModal(); // Close the modal after deletion
     };
-
-    const inputRef = useRef(null);
-    useEffect(() => {
-        if (modalEdit) {
-            const input = document.getElementById("editInput");
-            if (input) {
-                input.focus();
-                input.select();
-            }
-        }
-    }, [modalEdit]);
 
     const updateTask = () => {
         if (!selectedTask || selectedTask.text.trim() === "") {
@@ -83,13 +92,29 @@ const AdminView = (props) => {
                 fluid
                 className=" min-vh-100 d-flex flex-column align-items-center justify-content-start justify-content-md-center   "
             >
-                <Prompt onAddTask={addTask} />
+                <Prompt
+                    onAddTask={addTask}
+                    // parameters for the task being added
+                    selectedDate={selectedDate}
+                    setSelectedDate={setSelectedDate}
+                    priority={priority}
+                    handlePriorityChange={handlePriorityChange}
+                    tag={tag}
+                    setTag={setTag}
+                />
 
                 <Task
                     tasks={tasks}
                     toggleDelete={toggleDeleteModal}
                     toggleEdit={toggleEditModal}
                     setSelectedTask={setSelectedTask}
+                    // parameters for the task being added
+                    selectedDate={selectedDate}
+                    setSelectedDate={setSelectedDate}
+                    priority={priority}
+                    handlePriorityChange={handlePriorityChange}
+                    tag={tag}
+                    setTag={setTag}
                 />
 
                 <Modal isOpen={modalDelete} toggle={toggleDeleteModal}>
@@ -108,9 +133,7 @@ const AdminView = (props) => {
                         </Button>
                     </ModalFooter>
                 </Modal>
-
                 {/* //edit modal */}
-
                 <Modal isOpen={modalEdit} toggle={toggleEditModal}>
                     <ModalHeader toggle={toggleEditModal}>
                         Edit Task
@@ -131,7 +154,6 @@ const AdminView = (props) => {
                                     updateTask();
                                 }
                             }}
-                            innerRef={inputRef}
                             required
                             style={{
                                 borderColor:

@@ -3,56 +3,20 @@
         {
             "pattern": {
                 "type": "string",
-                "expression": "onAddTask",
+                "expression": "tag",
                 "ignoreCase": false,
                 "wholeMatch": false
             },
-            "color": "darkgoldenrod"
+            "color": "lightgreen"
         },
         {
             "pattern": {
                 "type": "string",
-                "expression": "tasks",
+                "expression": "addTask",
                 "ignoreCase": false,
                 "wholeMatch": false
             },
             "color": "darkmagenta"
-        },
-        {
-            "pattern": {
-                "type": "string",
-                "expression": "task",
-                "ignoreCase": false,
-                "wholeMatch": false
-            },
-            "color": "darkolivegreen"
-        },
-        {
-            "pattern": {
-                "type": "string",
-                "expression": "modal",
-                "ignoreCase": false,
-                "wholeMatch": false
-            },
-            "color": "darkslateblue"
-        },
-        {
-            "pattern": {
-                "type": "string",
-                "expression": ".TaskCard ",
-                "ignoreCase": false,
-                "wholeMatch": false
-            },
-            "color": "darkslategray"
-        },
-        {
-            "pattern": {
-                "type": "string",
-                "expression": ".btnPrompt",
-                "ignoreCase": false,
-                "wholeMatch": false
-            },
-            "color": "darkviolet"
         }
     ]
 }

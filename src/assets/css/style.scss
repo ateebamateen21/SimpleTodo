@@ -4,16 +4,19 @@
 $theme-colors: (
     "color1": #faf6f0,
     "color2": #f4eae0,
-    "color3": #fefae0ff,
+    "color3": #dfcda6,
     "color4": #e0bb94,
+
     "color5": #000000,
+    "color6": #6c757d,
+    // "color6": #e71d1d,
 );
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+// * {
+//     margin: 0;
+//     padding: 0 ;
+//     box-sizing: border-box;
+// }
 
 body {
     font-family: "Roboto", sans-serif;
@@ -22,6 +25,17 @@ body {
     font-size: 1.2rem;
     line-height: 1.5;
     font-weight: 400;
+    //handling font sizes here
+    h4 {
+        font-size: clamp(1.5rem, 2.5vw + 0.6rem, 2rem);
+    }
+    h5 {
+        font-size: clamp(1rem, 2.5vw + 0.6rem, 1.5rem);
+    }
+    div,
+    p {
+        font-size: clamp(0.8rem, 1vw + 0.2rem, 1.2rem);
+    }
 }
 
 .PromptCard {
@@ -32,6 +46,12 @@ body {
     &:hover {
         transform: scale(1.05);
     }
+}
+#collapseCard {
+    background-color: map-get($theme-colors, "color4") !important;
+    color: map-get($theme-colors, "color5");
+    border: none !important;
+    min-height: max-content;
 }
 
 .TaskCard {
@@ -44,6 +64,16 @@ body {
     &:hover {
         transform: scale(1.05);
     }
+
+    #taskCol {
+        background-color: map-get($theme-colors, "color3") !important;
+    }
+    #datePicker {
+        background-color: map-get($theme-colors, "color3") !important;
+        border: none !important;
+        outline: none !important;
+        color: map-get($theme-colors, "color6") !important;
+    }
 }
 
 .btnPrompt {
@@ -52,3 +82,7 @@ body {
 }
 
 // @debug map-get($theme-colors, "color4");
+
+// #prompth4{
+//     color: map-get($theme-colors, "color6");
+// }
