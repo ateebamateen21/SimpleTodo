@@ -68,6 +68,10 @@ body {
     #taskCol {
         background-color: map-get($theme-colors, "color3") !important;
     }
+
+    #taskCollapse{
+        background-color: map-get($theme-colors, "color3") !important;
+    }
     #datePicker {
         background-color: map-get($theme-colors, "color3") !important;
         border: none !important;
@@ -80,6 +84,29 @@ body {
     background-color: map-get($theme-colors, "color4");
     border: none;
 }
+
+.datePickerWrapper {
+    border: 0 !important;
+    padding: 0 !important;
+    background-color: transparent !important;
+    // position: relative; /* Ensures that the wrapper does not add spacing around the input */
+
+    &:focus-within {
+        outline: none; /* Remove outline when input or its descendants are focused */
+    }
+}
+
+
+// .datePicker {
+//     border: 0 !important;
+//     padding: 0 !important;
+//     background-color: transparent !important;
+//     &:focus {
+//         outline: none !important;
+//         box-shadow: none !important;
+//         appearance: none;
+//     }
+// }
 
 // @debug map-get($theme-colors, "color4");
 

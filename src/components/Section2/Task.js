@@ -1,134 +1,240 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import "../../assets/css/style.scss";
-import React from "react";
-import { useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import {
+    faPenToSquare,
+    faTrashCan,
+    faXmark,
+    faCaretDown,
+} from "@fortawesome/free-solid-svg-icons";
+import "../../assets/css/style.scss";
+import React, { useState } from "react";
+import {
+    Button,
     Card,
-    CardBody,
-    CardHeader,
     Col,
     Collapse,
     Container,
+    Input,
+    Label,
     Row,
 } from "reactstrap";
 
 const Task = ({
     tasks,
-    toggleDelete,
-    toggleEdit,
     setSelectedTask,
+    toggleEdit,
+    toggleDelete,
+    defaultSelectedValues,
     selectedDate,
     setSelectedDate,
     priority,
+    setPriority,
     handlePriorityChange,
-    setTag,
+    tag,
 }) => {
-    // Array to track the collapse state for each task
+    // Use an array to maintain separate isOpen state for each task
     const [isOpenArray, setIsOpenArray] = useState(
         Array(tasks.length).fill(false)
     );
 
     // Function to toggle the collapse for a specific task
-    const toggleCollapse = (currentIndex) => {
+    const toggle = (index) => {
         setIsOpenArray((prevArray) => {
             const newArray = [...prevArray];
-            newArray[currentIndex] = !newArray[currentIndex];
+            newArray[index] = !newArray[index];
             return newArray;
         });
     };
+
+    //For displaying edit button if task change is detected.
+    const hasChanges = (task, index) => {
+        return (
+            task.text !== defaultSelectedValues[index].text ||
+            task.selectedDate !== selectedDate ||
+            task.priority !== priority ||
+            task.tag !== tag
+        );
+    };
+
     return (
         <>
             <Container fluid className="my-3 task">
                 <Row className="justify-content-center align-items-start ">
                     <Col className="col-12 col-sm-6 col-md-6 col-lg-6  p-0">
-                        <Card className="TaskCard p-md-4 p-sm-3 py-3 ">
-                            <CardHeader className="mb-3">
-                                <h4 className="text-center  outline-none rounded">
-                                    Your Tasks
-                                </h4>
-                            </CardHeader>
-                            {tasks.length === 0 ? (
-                                <p className="text-center">
-                                    No task added yet!
-                                </p>
-                            ) : (
-                                tasks.map((task, currentIndex) => (
-                                    <Row
-                                        key={task.id}
-                                        className="mx-0 my-2 taskItem "
-                                        onClick={() =>
-                                            toggleCollapse(currentIndex)
-                                        }
+                        {tasks.map((task, index) => (
+                            <Card
+                                className="TaskCard p-md-4 p-sm-3 py-3 my-3"
+                                key={task.id}
+                            >
+                                <Row className="mx-0 my-2 taskItem ">
+                                    <Col
+                                        className="col-10 rounded"
+                                        id="taskCol"
                                     >
-                                        <div>Current Date:</div>
-                                        <Col
-                                            className="col-8 rounded"
-                                            id="taskCol"
+                                        <div className="text-center">
+                                            {task.text}
+                                        </div>
+                                    </Col>
+                                    <Col className="d-flex justify-content-end  col-2 rounded ">
+                                        <div
+                                            id="taskCollapse"
+                                            className="px-2 rounded"
+                                            onClick={() => toggle(index)}
                                         >
-                                            <div className="text-center">
-                                                {task.text}
+                                            <FontAwesomeIcon
+                                                icon={faCaretDown}
+                                            />
+                                        </div>
+                                    </Col>
+                                </Row>
+
+                                {/* Dropdown Options */}
+                                <Collapse isOpen={isOpenArray[index]}>
+                                    {/* Date Seelected */}
+                                    <Row className="m-2">
+                                        <Col
+                                            className="col-sm-3 col-md-3 col-lg-3 d-flex  p-1 justify-content-center "
+                                            xs={12}
+                                        >
+                                            <div className=" fw-bold ">
+                                                Date:{" "}
                                             </div>
                                         </Col>
-                                        <Col className="col-2">
-                                            <div
-                                                className="text-center "
-                                                onClick={() => {
-                                                    toggleEdit();
-                                                }}
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={faPenToSquare}
-                                                    onClick={() =>
-                                                        setSelectedTask(task)
-                                                    }
-                                                />
-                                            </div>
-                                        </Col>
-                                        <Col className="col-2">
-                                            <div
-                                                className="text-center  "
-                                                onClick={() => {
-                                                    toggleDelete();
-                                                }}
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={faTrashCan}
-                                                    onClick={() =>
-                                                        setSelectedTask(task)
-                                                    }
+
+                                        <Col
+                                            className="col-sm-8  col-md-8 col-lg-8 d-flex p-1 justify-content-center "
+                                            xs={12}
+                                        >
+                                            <div className="datePickerWrapper ">
+                                                <input
+                                                    type="date"
+                                                    id="datePicker"
+                                                    name="datePicker"
+                                                    format="dd/MM/yyyy"
+                                                    value={selectedDate || ""}
+                                                    className="border-0 outline-none bg-transparent"
+                                                    onChange={(e) =>
+                                                        setSelectedDate(
+                                                            e.target.value
+                                                        )}
                                                 />
                                             </div>
                                         </Col>
                                     </Row>
-                                ))
-                            )}
+                                    {/* PRIORITY OF TASKS */}
+                                    <Row className="m-2">
+                                        <Col
+                                            className="col-sm-3 col-md-3 col-lg-3 d-flex  p-1 justify-content-center  "
+                                            xs={12}
+                                        >
+                                            <div className=" fw-bold ">
+                                                Priority:{" "}
+                                            </div>
+                                        </Col>
+                                        <Col
+                                            className="col-sm-3 col-md-3 col-lg-3 d-flex p-1 justify-content-center"
+                                            xs={12}
+                                        >
+                                            <Input
+                                                id="low"
+                                                className="mr-1"
+                                                type="radio"
+                                                name="priority"
+                                                value="low"
+                                                //deafult checked if the task was created with this priority
 
-                            <Collapse
-                                isOpen={isOpenArray[currentIndex]}
-                                className="m-1"
-                            >
-                                <Card id="collapseCard">
-                                    <CardBody className="p-2">
-                                        <Row className=" m-2">
-                                            <div>
-                                                <label>Date:</label>
-                                                <DatePicker
-                                                    selected={selectedDate}
-                                                   onChange={(date) =>
-                                                        setSelectedDate(date)
-                                                    }
-                                                    dateFormat="dd/MM/yyyy"
-                                                    // Other DatePicker props...
+                                                checked={
+                                                    task.priority === "low"
+                                                }
+                                                onChange={(e) =>
+                                                    handlePriorityChange(
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                            <Label check for="low">
+                                                Low
+                                            </Label>
+                                        </Col>
+
+                                        <Col
+                                            className="col-sm-3 col-md-3 col-lg-3 d-flex p-1 justify-content-center"
+                                            xs={12}
+                                        >
+                                            <Input
+                                                id="mild"
+                                                className="mr-1"
+                                                type="radio"
+                                                name="priority"
+                                                value="mild"
+                                                // Check if the priority matches this radio button's value
+                                                checked={
+                                                    task.priority === "mild"
+                                                }
+                                                onChange={(e) =>
+                                                    handlePriorityChange(
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                            <Label check for="moderate">
+                                                Mild
+                                            </Label>
+                                        </Col>
+
+                                        <Col
+                                            className="col-sm-3 col-md-3 col-lg-3 d-flex p-1 justify-content-center"
+                                            xs={12}
+                                        >
+                                            <Input
+                                                id="high"
+                                                className="mr-1"
+                                                type="radio"
+                                                name="priority"
+                                                value="high"
+                                                // Check if the priority matches this radio button's value
+                                                checked={
+                                                    task.priority === "high"
+                                                }
+                                                onChange={(e) =>
+                                                    handlePriorityChange(
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                            <Label check for="high">
+                                                High
+                                            </Label>
+                                        </Col>
+                                    </Row>
+                                    {/* TAGS OF TASKS */}
+                                    <Row className="m-2">
+                                        <Col
+                                            className="col-sm-3 col-md-3 col-lg-3 d-flex p-1 justify-content-center "
+                                            xs={12}
+                                        >
+                                            <div className=" fw-bold ">
+                                                Tag:{" "}
+                                            </div>
+                                        </Col>
+                                        <Col
+                                            className="col-sm-8  col-md-8 col-lg-8 d-flex  p-1 justify-content-center "
+                                            xs={12}
+                                        >
+                                            <div className="tagWrapper">
+                                                <input
+                                                    type="text"
+                                                    name="tagTask"
+                                                    id="tagTask"
+                                                    placeholder="#tags"
+                                                    value={tag}
+                                                    className="border-0 outline-none bg-transparent"
                                                 />
                                             </div>
-                                        </Row>
-                                    </CardBody>
-                                </Card>
-                            </Collapse>
-                        </Card>
+                                        </Col>
+                                    </Row>
+                                </Collapse>
+                            </Card>
+                        ))}
                     </Col>
                 </Row>
             </Container>

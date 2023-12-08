@@ -1,9 +1,7 @@
 import React from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../assets/css/style.scss";
-import { faPlus, faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 import {
@@ -18,17 +16,17 @@ import {
     Label,
 } from "reactstrap";
 
-const Prompt = ({ onAddTask, selectedDate, setSelectedDate, priority, handlePriorityChange, setTag}) => {
+const Prompt = ({
+    addTask,
+    selectedDate,
+    setSelectedDate,
+    priority,
+    setPriority,
+    handlePriorityChange,
+    tag,
+    setTag,
+}) => {
     const [taskText, setTaskText] = useState("");
-
-    const addTask = () => {
-        if (taskText.trim() !== "") {
-            onAddTask(taskText);
-            setIsOpen(false);
-            setTaskText("");
-           
-        }
-    };
 
     //The collapsible component triggered by Input
     const [isOpen, setIsOpen] = useState(false);
@@ -39,8 +37,6 @@ const Prompt = ({ onAddTask, selectedDate, setSelectedDate, priority, handlePrio
             setIsOpen(!isOpen);
         }
     };
-
-
 
     return (
         <>
@@ -57,12 +53,31 @@ const Prompt = ({ onAddTask, selectedDate, setSelectedDate, priority, handlePrio
                                             placeholder="Enter your Todo"
                                             className="outline-none border-0 text-dark"
                                             value={taskText}
-                                            onChange={(e) =>
-                                                setTaskText(e.target.value)
-                                            }
+                                            onChange={(e) => {
+                                                setTaskText(e.target.value);
+                                                setSelectedDate(e.target.value);
+                                            }}
                                             onKeyPress={(e) => {
+                                                
                                                 if (e.key === "Enter") {
-                                                    addTask();
+                                                    // Update the state first, then call addTask
+                                                    setTaskText(taskText);
+                                                    if (taskText === "") {
+                                                        alert(
+                                                            "Please enter a task"
+                                                        );
+                                                    } else {
+                                                        addTask(
+                                                            taskText,
+                                                            selectedDate,
+                                                            priority,
+                                                            tag
+                                                        );
+                                                    }
+                                                    console.log("123")
+                                                    // setTaskText(""); // Clear the task input
+                                                    setSelectedDate(null); // Clear the date
+                                                    setTag(""); // Wipe out any tags
                                                 }
                                             }}
                                             onClick={toggle}
@@ -73,10 +88,24 @@ const Prompt = ({ onAddTask, selectedDate, setSelectedDate, priority, handlePrio
                                             className="btnPrompt btn-outline-light "
                                             onClick={() => {
                                                 if (taskText === "") {
-                                                    // alert(
-                                                    //     "Please enter a task"
-                                                    // );
+                                                    alert(
+                                                        "Please enter a task"
+                                                    );
+                                                } else {
+                                                    // Update the state first, then call addTask
+                                                    setTaskText(taskText);
+                                                    addTask(
+                                                        taskText,
+                                                        selectedDate,
+                                                        priority,
+                                                        tag
+                                                    );
+                                                    console.log(selectedDate);
                                                 }
+                                                //clear the input after adding task
+                                                setTaskText(""); // Clear the task input
+                                                setSelectedDate(null); // Clear the date
+                                                setTag(""); // Wipe out any tags
                                             }}
                                         >
                                             <FontAwesomeIcon icon={faPlus} />
@@ -91,7 +120,7 @@ const Prompt = ({ onAddTask, selectedDate, setSelectedDate, priority, handlePrio
                                         {/* Date picker */}
                                         <Row className=" m-2">
                                             <Col
-                                                className="col-sm-3 col-md-3 col-lg-3 "
+                                                className="col-sm-3 col-md-3 col-lg-3 d-flex  p-1 justify-content-center "
                                                 xs={12}
                                             >
                                                 <div className=" fw-bold ">
@@ -99,49 +128,49 @@ const Prompt = ({ onAddTask, selectedDate, setSelectedDate, priority, handlePrio
                                                 </div>
                                             </Col>
                                             <Col
-                                                className="col-sm-9 col-md-9 col-lg-9 "
+                                                className="col-sm-8  col-md-8 col-lg-8 d-flex p-1 justify-content-center "
                                                 xs={12}
                                             >
-                                                <DatePicker
-                                                    id="datePicker"
-                                                    selected={selectedDate}
-                                                    onChange={(date) =>
-                                                        setSelectedDate(date)
-                                                    }
-                                                    placeholderText="Select a due date"
-                                                    className="border-0 outline-none" // Add these classes
-                                                    color="#6c757d"
-                                                    customInput={
-                                                        <input
-                                                            type="text"
-                                                            value={
-                                                                selectedDate
-                                                                    ? selectedDate.toLocaleDateString()
-                                                                    : ""
+                                                <div className="datePickerWrapper ">
+                                                    <input
+                                                        type="date"
+                                                        name="datePicker"
+                                                        id="datePicker"
+                                                        format="dd/MM/yyyy"
+                                                        placeholder={
+                                                            selectedDate
+                                                        }
+                                                        className="border-0 outline-none bg-transparent"
+                                                        value={selectedDate}
+                                                        onChange={(e) => {
+                                                            const enteredDate =
+                                                                e.target.value;
+                                                            if (
+                                                                enteredDate.match(
+                                                                    /^\d{4}-\d{2}-\d{2}$/
+                                                                )
+                                                            ) {
+                                                                setSelectedDate(
+                                                                    enteredDate
+                                                                );
                                                             }
-                                                            readOnly
-                                                            className="border-0 outline-none rounded bg-transparent"
-                                                        />
-                                                    }
-                                                />
-                                                <FontAwesomeIcon
-                                                    icon={faCalendar}
-                                                    className=" clickable"
-                                                    color="#6c757d"
-                                                    onClick={() =>
-                                                        document
-                                                            .getElementById(
-                                                                "datePicker"
-                                                            )
-                                                            .click()
-                                                    }
-                                                />
+                                                        }}
+                                                    />
+                                                </div>
                                             </Col>
                                         </Row>
                                         {/* Priority Buttons */}
                                         <Row className="m-2 ">
                                             <Col
-                                                className="col-sm-4 col-md-4 col-lg-4 d-flex p-1"
+                                                className="col-sm-3 col-md-3 col-lg-3 d-flex  p-1 justify-content-center  "
+                                                xs={12}
+                                            >
+                                                <div className=" fw-bold ">
+                                                    Priority:{" "}
+                                                </div>
+                                            </Col>
+                                            <Col
+                                                className="col-sm-3 col-md-3 col-lg-3 d-flex  p-1 justify-content-center"
                                                 xs={12}
                                             >
                                                 <Input
@@ -161,29 +190,27 @@ const Prompt = ({ onAddTask, selectedDate, setSelectedDate, priority, handlePrio
                                                     Low
                                                 </Label>
                                             </Col>
-
                                             <Col
-                                                className="col-sm-4 col-md-4 col-lg-4 d-flex p-1"
+                                                className="col-sm-3 col-md-3 col-lg-3 d-flex  p-1 justify-content-center"
                                                 xs={12}
                                             >
                                                 <Input
-                                                    id="medium"
+                                                    id="mild"
                                                     type="radio"
                                                     name="priority"
-                                                    value="moderate"
+                                                    value="mild"
                                                     onChange={(e) =>
                                                         handlePriorityChange(
                                                             e.target.value
                                                         )
                                                     }
                                                 />
-                                                <Label check for="medium">
-                                                    Medium
+                                                <Label check for="mild">
+                                                    Mild
                                                 </Label>
                                             </Col>
-
                                             <Col
-                                                className="col-sm-4 col-md-4 col-lg-4 d-flex p-1"
+                                                className="col-sm-3 col-md-3 col-lg-3 d-flex  p-1 justify-content-center"
                                                 xs={12}
                                             >
                                                 <Input
@@ -200,6 +227,38 @@ const Prompt = ({ onAddTask, selectedDate, setSelectedDate, priority, handlePrio
                                                 <Label check for="high">
                                                     High
                                                 </Label>
+                                            </Col>
+                                        </Row>
+
+                                        {/* Tag Buttons */}
+                                        <Row className="m-2">
+                                            <Col
+                                                className="col-sm-3 col-md-3 col-lg-3 d-flex p-1 justify-content-center "
+                                                xs={12}
+                                            >
+                                                <div className=" fw-bold ">
+                                                    Tag:{" "}
+                                                </div>
+                                            </Col>
+                                            <Col
+                                                className="col-sm-8  col-md-8 col-lg-8 d-flex  p-1 justify-content-center "
+                                                xs={12}
+                                            >
+                                                <div className="tagWrapper">
+                                                    <input
+                                                        type="text"
+                                                        name="tagTask"
+                                                        id="tagTask"
+                                                        // value={tag}
+                                                        placeholder="#tags"
+                                                        className="border-0 outline-none bg-transparent"
+                                                        onChange={(e) => {
+                                                            setTag(
+                                                                e.target.value
+                                                            );
+                                                        }}
+                                                    />
+                                                </div>
                                             </Col>
                                         </Row>
                                     </CardBody>

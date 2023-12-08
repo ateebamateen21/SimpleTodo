@@ -1,3 +1,4 @@
+import { React, useState } from "react";
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Prompt from "../components/Section1/Prompt";
@@ -13,7 +14,6 @@ import {
     ModalFooter,
     ModalHeader,
 } from "reactstrap";
-import { useEffect, useState, useRef } from "react";
 
 const AdminView = () => {
     const [tasks, setTasks] = useState([]);
@@ -22,14 +22,14 @@ const AdminView = () => {
     //parameters with the task being added
     const [selectedDate, setSelectedDate] = useState(null);
 
-    setSelectedDate(selectedDate)
+    // setSelectedDate(selectedDate)
 
     //State for priority in your component
     const [priority, setPriority] = useState(null);
 
     // Function to handle priority changes
-    const handlePriorityChange = (selectedPriority) => {
-        setPriority(selectedPriority);
+    const handlePriorityChange = (priority) => {
+        setPriority(priority);
     };
 
     const [tag, setTag] = useState("");
@@ -93,11 +93,12 @@ const AdminView = () => {
                 className=" min-vh-100 d-flex flex-column align-items-center justify-content-start justify-content-md-center   "
             >
                 <Prompt
-                    onAddTask={addTask}
+                    addTask={addTask}
                     // parameters for the task being added
                     selectedDate={selectedDate}
                     setSelectedDate={setSelectedDate}
                     priority={priority}
+                    setPriority={setPriority}
                     handlePriorityChange={handlePriorityChange}
                     tag={tag}
                     setTag={setTag}
@@ -108,10 +109,10 @@ const AdminView = () => {
                     toggleDelete={toggleDeleteModal}
                     toggleEdit={toggleEditModal}
                     setSelectedTask={setSelectedTask}
-                    // parameters for the task being added
-                    selectedDate={selectedDate}
+                    selectedDate={selectedDate} // Pass selectedDate here
                     setSelectedDate={setSelectedDate}
                     priority={priority}
+                    setPriority={setPriority}
                     handlePriorityChange={handlePriorityChange}
                     tag={tag}
                     setTag={setTag}
