@@ -12,11 +12,11 @@ function App() {
             <Provider store={store}>
                 <BrowserRouter>
                     <Switch>
-                        {routes.map((route) => {
+                        {routes.map((route,index) => {
                             switch (route.layout) {
                                 case "main":
                                     return (
-                                        <Route exact path={route.path}>
+                                        <Route key={index} exact path={route.path}>
                                             <Main>
                                                 <route.component />
                                             </Main>
@@ -24,7 +24,7 @@ function App() {
                                     );
                                 case "auth":
                                     return (
-                                        <Route exact path={route.path}>
+                                        <Route key={index} exact path={route.path}>
                                             <Auth>
                                                 <route.component />
                                             </Auth>

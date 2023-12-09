@@ -110,7 +110,7 @@ const Task = ({
                                                     id="datePicker"
                                                     name="datePicker"
                                                     format="dd/MM/yyyy"
-                                                    value={selectedDate || ""}
+                                                    value={task.selectedDate || ""}
                                                     className="border-0 outline-none bg-transparent"
                                                     onChange={(e) =>
                                                         setSelectedDate(
@@ -139,17 +139,16 @@ const Task = ({
                                                 className="mr-1"
                                                 type="radio"
                                                 name="priority"
-                                                value="low"
+                                                defaultValue={"low"}
                                                 //deafult checked if the task was created with this priority
-
                                                 checked={
                                                     task.priority === "low"
                                                 }
-                                                onChange={(e) =>
-                                                    handlePriorityChange(
-                                                        e.target.value
-                                                    )
-                                                }
+                                                // onChange={(e) =>
+                                                //     handlePriorityChange(
+                                                //         e.target.value
+                                                //     )
+                                                // }
                                             />
                                             <Label check for="low">
                                                 Low
@@ -165,16 +164,16 @@ const Task = ({
                                                 className="mr-1"
                                                 type="radio"
                                                 name="priority"
-                                                value="mild"
+                                                defaultValue="mild"
                                                 // Check if the priority matches this radio button's value
                                                 checked={
                                                     task.priority === "mild"
                                                 }
-                                                onChange={(e) =>
-                                                    handlePriorityChange(
-                                                        e.target.value
-                                                    )
-                                                }
+                                                // onChange={(e) =>
+                                                //     handlePriorityChange(
+                                                //         e.target.value
+                                                //     )
+                                                // }
                                             />
                                             <Label check for="moderate">
                                                 Mild
@@ -190,16 +189,16 @@ const Task = ({
                                                 className="mr-1"
                                                 type="radio"
                                                 name="priority"
-                                                value="high"
+                                                defaultValue="high"
                                                 // Check if the priority matches this radio button's value
                                                 checked={
                                                     task.priority === "high"
                                                 }
-                                                onChange={(e) =>
-                                                    handlePriorityChange(
-                                                        e.target.value
-                                                    )
-                                                }
+                                                // onChange={(e) =>
+                                                //     handlePriorityChange(
+                                                //         e.target.value
+                                                //     )
+                                                // }
                                             />
                                             <Label check for="high">
                                                 High
@@ -226,7 +225,7 @@ const Task = ({
                                                     name="tagTask"
                                                     id="tagTask"
                                                     placeholder="#tags"
-                                                    value={tag}
+                                                    value={task.tag}
                                                     className="border-0 outline-none bg-transparent"
                                                 />
                                             </div>

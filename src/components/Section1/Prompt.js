@@ -20,8 +20,6 @@ const Prompt = ({
     addTask,
     selectedDate,
     setSelectedDate,
-    priority,
-    setPriority,
     handlePriorityChange,
     tag,
     setTag,
@@ -55,29 +53,17 @@ const Prompt = ({
                                             value={taskText}
                                             onChange={(e) => {
                                                 setTaskText(e.target.value);
-                                                setSelectedDate(e.target.value);
                                             }}
                                             onKeyPress={(e) => {
                                                 
                                                 if (e.key === "Enter") {
                                                     // Update the state first, then call addTask
-                                                    setTaskText(taskText);
                                                     if (taskText === "") {
-                                                        alert(
-                                                            "Please enter a task"
-                                                        );
+                                                        alert("Please enter a task");
                                                     } else {
-                                                        addTask(
-                                                            taskText,
-                                                            selectedDate,
-                                                            priority,
-                                                            tag
-                                                        );
+                                                        addTask(taskText);
+                                                        setTaskText(""); 
                                                     }
-                                                    console.log("123")
-                                                    // setTaskText(""); // Clear the task input
-                                                    setSelectedDate(null); // Clear the date
-                                                    setTag(""); // Wipe out any tags
                                                 }
                                             }}
                                             onClick={toggle}
@@ -93,19 +79,9 @@ const Prompt = ({
                                                     );
                                                 } else {
                                                     // Update the state first, then call addTask
-                                                    setTaskText(taskText);
-                                                    addTask(
-                                                        taskText,
-                                                        selectedDate,
-                                                        priority,
-                                                        tag
-                                                    );
-                                                    console.log(selectedDate);
+                                                    addTask(taskText);
+                                                    setTaskText("");
                                                 }
-                                                //clear the input after adding task
-                                                setTaskText(""); // Clear the task input
-                                                setSelectedDate(null); // Clear the date
-                                                setTag(""); // Wipe out any tags
                                             }}
                                         >
                                             <FontAwesomeIcon icon={faPlus} />
@@ -249,7 +225,7 @@ const Prompt = ({
                                                         type="text"
                                                         name="tagTask"
                                                         id="tagTask"
-                                                        // value={tag}
+                                                        value={tag}
                                                         placeholder="#tags"
                                                         className="border-0 outline-none bg-transparent"
                                                         onChange={(e) => {

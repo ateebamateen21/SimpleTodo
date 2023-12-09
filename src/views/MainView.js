@@ -15,17 +15,18 @@ import {
     ModalHeader,
 } from "reactstrap";
 
+// 
 const AdminView = () => {
     const [tasks, setTasks] = useState([]);
     const [selectedTask, setSelectedTask] = useState(null);
 
     //parameters with the task being added
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState("");
 
     // setSelectedDate(selectedDate)
 
     //State for priority in your component
-    const [priority, setPriority] = useState(null);
+    const [priority, setPriority] = useState("");
 
     // Function to handle priority changes
     const handlePriorityChange = (priority) => {
@@ -34,7 +35,10 @@ const AdminView = () => {
 
     const [tag, setTag] = useState("");
 
-    const addTask = (taskText, tag, selectedDate, priority) => {
+
+    // Get states from this component
+    // 
+        const addTask = (taskText) => {
         // Create a new task object with additional properties
         const newTask = {
             id: Date.now(),
@@ -44,8 +48,13 @@ const AdminView = () => {
             priority: priority,
         };
         setTasks((prevTasks) => [...prevTasks, newTask]);
+        setTag("");
+        setSelectedDate("");
+        setPriority("");
         // console.log(newTask); //see the recently added task
     };
+
+    console.log(tasks)
 
     // console.log(tasks) // see the array of tasks
 
